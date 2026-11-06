@@ -1,5 +1,5 @@
 // Cache-first offline support. Bump VERSION on each deploy to refresh the cache.
-const VERSION = "gh300-v3";
+const VERSION = "gh300-v4";
 const INFOGRAPHICS = [
   "01-responsible-ai-ethics-and-safe-usage",
   "02-github-copilot-fundamentals-plans-and-core-features",

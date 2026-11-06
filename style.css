@@ -28,7 +28,7 @@ main:focus{outline:none}
 button,a{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 
 /* Header + nav (bottom tab bar on mobile, inline on desktop) */
-.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:calc(10px + env(safe-area-inset-top)) 16px 10px}
+.top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);padding:calc(10px + env(safe-area-inset-top)) 16px 10px}
 .brand{color:var(--text);text-decoration:none;font-weight:700;font-size:18px;letter-spacing:-.01em}
 .brand .mono{color:var(--accent)}.brand-dim{color:var(--muted);font-weight:500}
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
