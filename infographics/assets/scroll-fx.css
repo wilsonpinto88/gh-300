@@ -1,0 +1,37 @@
+/* Shared scroll effects for infographics. Needs scroll-fx.js (adds .fx on <html>). */
+.fx-progress{position:fixed;top:0;left:0;height:4px;width:100%;z-index:50;background:linear-gradient(90deg,var(--acc),var(--acc2));transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
+
+.fx .hero{will-change:transform,opacity;transform:translateY(calc(var(--hero-p,0)*40px));opacity:calc(1 - var(--hero-p,0)*.5)}
+
+/* Parallax scenes: sections pin (sticky) and the next one slides over them.
+   JS sets per section: --stick (pin offset), --cover (0..1, how far the next
+   section has covered this one), --py (slow layer shift), --py2 (ghost shift). */
+.fx main{padding-bottom:0}
+.fx main>section{position:sticky;top:var(--stick,0px);overflow:hidden;isolation:isolate;min-height:100vh;display:flex;flex-direction:column;justify-content:center;margin:0;border-radius:24px 24px 0 0;padding:clamp(28px,5vw,64px);box-shadow:0 -24px 48px -24px #0000004d;transform-origin:50% 0;transform:scale(calc(1 - var(--cover,0)*.06));opacity:calc(1 - var(--cover,0)*.65);will-change:transform,opacity}
+.fx main>section>*{position:relative;z-index:1}
+.fx main>section>h2{font-size:clamp(22px,3vw,30px);margin-bottom:24px}
+/* Back layer: soft glow drifting slower than the content */
+.fx main>section::before{content:"";position:absolute;z-index:0;width:70%;aspect-ratio:1;right:-15%;top:-20%;border-radius:50%;background:radial-gradient(circle,var(--acc) 0,transparent 65%);opacity:.14;transform:translateY(calc(var(--py,0)*1px));pointer-events:none}
+.fx main>section:nth-child(even)::before{right:auto;left:-15%;background:radial-gradient(circle,var(--acc2) 0,transparent 65%)}
+/* Ghost layer: giant section icon, moves against the scroll */
+.fx-ghost{position:absolute!important;z-index:0!important;right:4%;bottom:-6%;font-size:clamp(140px,22vw,280px);line-height:1;opacity:.07;filter:grayscale(.3);transform:translateY(calc(var(--py2,0)*1px)) rotate(calc(var(--py2,0)*.06deg));pointer-events:none;user-select:none}
+/* Room for examples, illustrations and flowcharts */
+.fx main>section>.visual{margin-top:24px;display:flex;justify-content:center}
+.fx main>section>.visual svg{max-width:100%;height:auto}
+
+/* Stagger children inside a revealed section */
+.fx main>section :is(.card,.step,.rung,.col,.vsb,.stat,.chk li,.bar,tr,.callout){opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease;transition-delay:calc(var(--i-fx,0)*70ms)}
+.fx main>section.in :is(.card,.step,.rung,.col,.vsb,.stat,.chk li,.bar,tr,.callout){opacity:1;transform:none}
+.fx main>section.in .rung{transform:none}
+
+/* Bars grow when section enters */
+.fx .bf{transform:scaleX(0);transform-origin:0 50%;transition:transform 1s cubic-bezier(.2,.7,.2,1) .2s}
+.fx section.in .bf{transform:scaleX(1)}
+
+@media (prefers-reduced-motion:reduce){
+  .fx-progress{display:none}
+  .fx .hero{transform:none;opacity:1}
+  .fx main>section{position:static;min-height:0;margin:18px 0;border-radius:16px;box-shadow:none}
+  .fx main>section::before,.fx-ghost{display:none}
+  .fx main>section,.fx main>section *{opacity:1!important;transform:none!important;transition:none!important}
+}
