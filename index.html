@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>GH-300 Practice</title>
-<meta name="theme-color" content="#0d1117">
+<meta name="theme-color" content="#0e0f14" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7f7fb" media="(prefers-color-scheme: light)">
 <meta name="description" content="GH-300 GitHub Copilot exam practice: infographics and quizzes.">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
@@ -12,8 +13,18 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="top"><a href="#/" class="brand">GH-300 <span>Practice</span></a></header>
-<main id="app" aria-live="polite"></main>
+<a class="skip" href="#app">Skip to content</a>
+<header class="top">
+  <a href="#/" class="brand"><span class="mono">&gt;_</span> GH-300 <span class="brand-dim">Practice</span></a>
+  <nav class="tabs" aria-label="Main">
+    <a href="#/" data-tab="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg><span>Practice</span></a>
+    <a href="#/study" data-tab="study"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19a2 2 0 0 1 2-2h13"/></svg><span>Study</span></a>
+    <a href="#/progress" data-tab="progress"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg><span>Progress</span></a>
+  </nav>
+</header>
+<main id="app" tabindex="-1"></main>
+<div id="sr" class="sr-only" role="status" aria-live="polite"></div>
+<noscript><p style="padding:16px">This app needs JavaScript.</p></noscript>
 <script src="questions.js"></script>
 <script src="app.js"></script>
 </body>
