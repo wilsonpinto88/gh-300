@@ -14,6 +14,8 @@
     ["10-github-com-workflows-pull-requests-code-review-and-issues", "GitHub.com Workflows, PRs & Issues"],
     ["11-spaces-knowledge-bases-and-mcp-server", "Spaces, Knowledge Bases & MCP"],
     ["12-agents-cli-metrics-and-advanced-operational-capabilities", "Agents, CLI & Metrics"],
+    ["13-customize-and-extend-copilot", "Customize & Extend: Instructions, Prompt Files, Sub-agents"],
+    ["14-copilot-cli-and-organization-administration", "Copilot CLI & Org Admin: Policies, Audit Log, REST API"],
   ];
   const K = { progress: "gh300:progress:v1", session: "gh300:session:v2", flags: "gh300:flags:v1" };
   const app = document.getElementById("app");
@@ -118,7 +120,7 @@
     document.title = "Study · GH-300";
     app.innerHTML = `
       <h1 tabindex="-1" data-focus>Study</h1>
-      <p class="muted">12 infographics covering the exam domains.</p>
+      <p class="muted">${INFOGRAPHICS.length} infographics covering the exam domains.</p>
       <div class="rows">${INFOGRAPHICS.map(([f, n], i) => `<a class="row" href="infographics/${f}.infographic.html"><span class="no mono">${pad(i + 1)}</span><span class="grow">${esc(n)}</span><span class="end" aria-hidden="true">&rsaquo;</span></a>`).join("")}</div>`;
   }
 

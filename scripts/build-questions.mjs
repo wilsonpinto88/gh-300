@@ -34,6 +34,8 @@ for (const f of files) {
       if (m) options.push({ key: m[1], text: m[2] });
       else if (l.trim() && options.length) options[options.length - 1].text += "\n" + l.trim();
     }
+    // Source bolds the correct option(s); strip it so the answer isn't given away.
+    for (const o of options) o.text = o.text.replaceAll("**", "");
     const a = answers[id];
     if (!a || !a.correct.length) throw new Error(`${f} #${id}: missing answer`);
     for (const k of a.correct) if (!options.some((o) => o.key === k)) throw new Error(`${f} #${id}: answer ${k} not in options`);

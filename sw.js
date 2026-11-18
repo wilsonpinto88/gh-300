@@ -1,5 +1,5 @@
 // Cache-first offline support. Bump VERSION on each deploy to refresh the cache.
-const VERSION = "gh300-v4";
+const VERSION = "gh300-v5";
 const INFOGRAPHICS = [
   "01-responsible-ai-ethics-and-safe-usage",
   "02-github-copilot-fundamentals-plans-and-core-features",
@@ -13,9 +13,11 @@ const INFOGRAPHICS = [
   "10-github-com-workflows-pull-requests-code-review-and-issues",
   "11-spaces-knowledge-bases-and-mcp-server",
   "12-agents-cli-metrics-and-advanced-operational-capabilities",
+  "13-customize-and-extend-copilot",
+  "14-copilot-cli-and-organization-administration",
 ].map((n) => `infographics/${n}.infographic.html`);
 const CORE = [
-  "./", "index.html", "style.css", "app.js", "questions.js", "manifest.webmanifest", "icon.svg", "icon-192.png", "icon-512.png", "icon-maskable-512.png",
+  "./", "index.html", "style.css", "app.js", "questions.js", "questions-extra.js", "manifest.webmanifest", "icon.svg", "icon-192.png", "icon-512.png", "icon-maskable-512.png",
   "infographics/assets/scroll-fx.css", "infographics/assets/scroll-fx.js", "infographics/assets/visuals.css",
   ...INFOGRAPHICS,
 ];
