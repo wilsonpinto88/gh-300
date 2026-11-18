@@ -1,5 +1,5 @@
-// Cache-first offline support. Bump VERSION on each deploy to refresh the cache.
-const VERSION = "gh300-v6";
+// Offline support. Bump VERSION when the precache list changes.
+const VERSION = "gh300-v7";
 const INFOGRAPHICS = [
   "01-responsible-ai-ethics-and-safe-usage",
   "02-github-copilot-fundamentals-plans-and-core-features",
@@ -23,20 +23,24 @@ const CORE = [
 ];
 
 self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(VERSION).then((c) => c.addAll(CORE)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(VERSION).then((c) => c.addAll(CORE.map((u) => new Request(u, { cache: "reload" })))).then(() => self.skipWaiting()));
 });
 self.addEventListener("activate", (e) => {
   e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== VERSION).map((k) => caches.delete(k)))).then(() => self.clients.claim()));
 });
+// Network-first: always try for fresh files, fall back to the cache offline.
+// Cache-first could pin stale files: the Pages CDN may serve a new sw.js
+// before the new app.js, and the install would then cache the old app.js.
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
+  const sameOrigin = new URL(e.request.url).origin === location.origin;
   e.respondWith(
-    caches.match(e.request).then((hit) => hit || fetch(e.request).then((res) => {
-      if (res.ok && new URL(e.request.url).origin === location.origin) {
+    fetch(e.request, sameOrigin ? { cache: "no-cache" } : undefined).then((res) => {
+      if (res.ok && sameOrigin) {
         const copy = res.clone();
         caches.open(VERSION).then((c) => c.put(e.request, copy));
       }
       return res;
-    }))
+    }).catch(() => caches.match(e.request, { ignoreSearch: true }).then((hit) => hit || Response.error()))
   );
 });
