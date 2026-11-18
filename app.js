@@ -17,6 +17,22 @@
     ["13-customize-and-extend-copilot", "Customize & Extend: Instructions, Prompt Files, Sub-agents"],
     ["14-copilot-cli-and-organization-administration", "Copilot CLI & Org Admin: Policies, Audit Log, REST API"],
   ];
+  // Theme of each practice test, derived from its questions. Kept here (not in
+  // the question data) so regenerating questions.js does not drop them.
+  const TITLES = {
+    1: "Responsible AI & Basics",
+    2: "Plans & Administration",
+    3: "Data, Privacy & Plans",
+    4: "Chat, Prompts & Use Cases",
+    5: "Prompt Engineering & Safeguards",
+    6: "Plans, Surfaces & Productivity",
+    7: "Testing & TDD",
+    8: "Agent Mode",
+    9: "Coding Agent Workflows",
+    10: "Tests, PRs & Agent Safety",
+    11: "Customization & Sub-agents",
+    12: "Copilot CLI & Org Admin",
+  };
   const K = { progress: "gh300:progress:v1", session: "gh300:session:v2", flags: "gh300:flags:v1" };
   const app = document.getElementById("app");
   const sr = document.getElementById("sr");
@@ -29,6 +45,7 @@
   // ---------- data ----------
   const pad = (n) => String(n).padStart(2, "0");
   const qid = (t, q) => `${pad(t)}-${q.id}`;
+  const title = (n) => TITLES[n] || `Test ${pad(n)}`;
   const all = TESTS.flatMap((t) => t.questions.map((q) => ({ ...q, uid: qid(t.test, q), test: t.test })));
   const byId = new Map(all.map((q) => [q.uid, q]));
 
@@ -69,7 +86,7 @@
     else if (mode === "wrong") startFrom(shuffle(all.filter((q) => p[q.uid] && !p[q.uid].ok)), "Wrong answers");
     else if (mode === "new") startFrom(shuffle(all.filter((q) => !p[q.uid])).slice(0, 20), "Unanswered");
     else if (mode === "flagged") startFrom(all.filter((q) => f[q.uid]), "Flagged");
-    else if (mode.startsWith("t:")) startFrom(all.filter((q) => q.test === Number(mode.slice(2))), `Test ${pad(mode.slice(2))}`);
+    else if (mode.startsWith("t:")) startFrom(all.filter((q) => q.test === Number(mode.slice(2))), `Test ${pad(mode.slice(2))} · ${title(Number(mode.slice(2)))}`);
   }
   app.addEventListener("click", (e) => {
     const b = e.target.closest("[data-start]");
@@ -109,8 +126,8 @@
       <div class="grid">${TESTS.map((t) => {
         const done = t.questions.filter((q) => p[qid(t.test, q)]);
         const ok = done.filter((q) => p[qid(t.test, q)].ok).length;
-        return `<button class="tile" data-start="t:${t.test}" aria-label="Test ${pad(t.test)}, ${ok} of ${t.questions.length} correct">
-          <span class="t">TEST</span><span class="n">${pad(t.test)}</span>
+        return `<button class="tile" data-start="t:${t.test}" aria-label="Test ${pad(t.test)}, ${esc(title(t.test))}, ${ok} of ${t.questions.length} correct">
+          <span class="t">TEST ${pad(t.test)}</span><span class="n">${esc(title(t.test))}</span>
           <div class="bar" aria-hidden="true"><i style="width:${(ok / t.questions.length) * 100}%"></i></div>
           <span class="t">${ok}/${t.questions.length} correct</span></button>`;
       }).join("")}</div>`;
@@ -142,7 +159,7 @@
         const done = t.questions.filter((q) => p[qid(t.test, q)]);
         const ok = done.filter((q) => p[qid(t.test, q)].ok).length;
         const acc = done.length ? Math.round((ok / done.length) * 100) : null;
-        return `<div class="row"><span class="no mono">${pad(t.test)}</span><div class="grow"><div>Test ${pad(t.test)}</div><div class="bar" aria-hidden="true"><i style="width:${(done.length / t.questions.length) * 100}%"></i></div></div><span class="end">${done.length}/${t.questions.length} · ${acc == null ? "—" : acc + "%"}</span></div>`;
+        return `<div class="row"><span class="no mono">${pad(t.test)}</span><div class="grow"><div>${esc(title(t.test))}</div><div class="bar" aria-hidden="true"><i style="width:${(done.length / t.questions.length) * 100}%"></i></div></div><span class="end">${done.length}/${t.questions.length} · ${acc == null ? "—" : acc + "%"}</span></div>`;
       }).join("")}</div>
       <h2>Data</h2>
       <button class="btn ghost" id="reset" ${s.answered || Object.keys(f).length ? "" : "disabled"}>Reset progress…</button>
