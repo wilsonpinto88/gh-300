@@ -100,16 +100,19 @@
 /* breathing room: the original flow badges stick out above the first row */
 main section .flow{margin-top:18px}
 
-/* Summary card: compact checklist, chapter nav right below it, group centred */
+/* Summary card: compact checklist. The last card is shorter than a screen so it
+   shares the final screen with the chapter nav and footer below it. */
+:root{--chap-space:148px}
 .sum .chk{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:8px 24px}
 .sum .chk li{font-size:15px}
 .sum .visual{margin-top:18px}
-.fx main>section.sum{padding-top:clamp(28px,4vw,48px);padding-bottom:clamp(28px,4vw,48px)}
+.fx main>section.sum{min-height:calc(100vh - var(--chap-space));min-height:calc(100svh - var(--chap-space));padding-top:clamp(28px,4vw,48px);padding-bottom:clamp(28px,4vw,48px)}
 .fx main>section.sum>h2{margin-bottom:16px}
+@media (prefers-reduced-motion:reduce){.fx main>section.sum{min-height:0}}
 
-/* Chapter nav: previous / study home / next, as large tap targets */
-nav.chap{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;max-width:none;margin:28px 0 0;padding:0}
-nav.chap a{display:flex;flex-direction:column;justify-content:center;gap:3px;min-height:72px;padding:12px 16px;border:1px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);text-decoration:none;transition:border-color .15s,transform .15s}
+/* Chapter nav below the last card: previous / study home / next, as large tap targets */
+nav.chap{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;max-width:1060px;margin:16px auto 0;padding:0 16px}
+nav.chap a{display:flex;flex-direction:column;justify-content:center;gap:3px;min-height:72px;padding:12px 16px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);text-decoration:none;transition:border-color .15s,transform .15s}
 nav.chap a:hover,nav.chap a:focus-visible{border-color:var(--acc);transform:translateY(-2px)}
 nav.chap a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 nav.chap small{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--mut)}

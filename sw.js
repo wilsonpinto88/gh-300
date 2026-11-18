@@ -1,5 +1,5 @@
 // Offline support. Bump VERSION when the precache list changes.
-const VERSION = "gh300-v9";
+const VERSION = "gh300-v10";
 const INFOGRAPHICS = [
   "01-responsible-ai-ethics-and-safe-usage",
   "02-github-copilot-fundamentals-plans-and-core-features",
